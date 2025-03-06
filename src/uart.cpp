@@ -4,6 +4,8 @@
 #include <unistd.h>
 #include <cstring>
 #include <iostream>
+#include <string>
+#include <cstddef> 
 
 UART::UART(const char* portName, int baudRate) : portName(portName), baudRate(baudRate), uart_fd(-1) {}
 

@@ -2,6 +2,7 @@
 #define UART_H
 
 #include <cstdint>
+#include <cstddef> 
 
 class UART {
 public:

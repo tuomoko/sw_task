@@ -2,6 +2,10 @@
 #include "uart.h"
 #include <iostream>
 #include <cstring>
+#include <ctime>
+#include <iomanip>
+#include <sstream>
+
 
 Novatel::Novatel(UART uart) : uart(uart) {}
 
@@ -18,3 +22,4 @@ std::string Novatel::readTime() {
         return "";
     }
 }
+#include <iostream>
