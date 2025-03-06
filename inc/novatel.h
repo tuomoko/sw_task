@@ -1,3 +1,9 @@
+/*
+ * Copyright (c) 2025 Tuomo Kohtamäki
+ * 
+ * This file is part of the Novatel OEM719 time synchronization library.
+ */
+
 #ifndef NOVATEL_H
 #define NOVATEL_H
 
@@ -6,8 +12,8 @@
 
 class Novatel {
 public:
-    Novatel(UART uart);
-    std::string readTime();
+    explicit Novatel(UART uart);
+    bool readTime(struct timespec* time);
 
 private:
     UART uart;

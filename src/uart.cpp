@@ -1,3 +1,9 @@
+/*
+ * Copyright (c) 2025 Tuomo Kohtamäki
+ * 
+ * This is a simple UART wrapper for reading and writing data to a UART port.
+ */
+
 #include "uart.h"
 #include <fcntl.h>
 #include <termios.h>
@@ -9,8 +15,11 @@
 
 UART::UART(const char* portName, int baudRate) : portName(portName), baudRate(baudRate), uart_fd(-1) {}
 
-bool UART::open()
-{
+UART::~UART() {
+    close();
+}
+
+bool UART::open() {
     this->uart_fd = ::open(this->portName, O_RDWR | O_NOCTTY | O_NDELAY);
     if (this->uart_fd == -1) {
         std::cerr << "Error opening UART port: " << this->portName << std::endl;
@@ -40,8 +49,15 @@ bool UART::init() {
     return true;
 }
 
-int UART::readData(char* buffer, size_t size) {
-    return read(this->uart_fd, buffer, size);
+std::string UART::readData() {
+    char buffer[UART_BUFFER_SIZE];
+    std::memset(buffer, 0, UART_BUFFER_SIZE);
+    int bytes_read = ::read(this->uart_fd, buffer, UART_BUFFER_SIZE);
+    if (bytes_read > 0) {
+        return std::string(buffer, bytes_read);
+    } else {
+        return "";
+    }
 }
 
 void UART::close() {
@@ -51,6 +67,12 @@ void UART::close() {
     }
 }
 
-UART::~UART() {
-    this->close();
+bool UART::sendData(const std::string& data) {
+    if (uart_fd == -1) {
+        std::cerr << "UART port not open." << std::endl;
+        return false;
+    }
+
+    int bytes_written = ::write(uart_fd, data.c_str(), data.size());
+    return bytes_written == static_cast<int>(data.size());
 }
