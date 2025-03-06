@@ -20,3 +20,4 @@ Build, static analysis and unit tests are included in Github Actions. They may b
 ## Further improvements
 - Test using actual hardware and debug potential bugs
 - Utilize interrupts for PPS signal
+- Add unit tests for the project
